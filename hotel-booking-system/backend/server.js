@@ -115,7 +115,14 @@ app.delete('/api/bookings/:id', authenticateToken, (req, res) => {
   db.run('DELETE FROM bookings WHERE id = ?', [req.params.id], function(err) {
     if (err)             return res.status(400).json({ error: err.message });
     if (this.changes === 0) return res.status(404).json({ error: 'ไม่พบข้อมูลการจอง' });
-    res.json({ message: 'ลบข้อมูลสำเร็จ', id: req.params.id });
+    res.json({ status: "ลบข้อมูลสำเร็จโดย [นางสาววณิชชา จับปรั่ง]", id: req.params.id });
+  });
+});
+
+app.get('/api/users', authenticateToken, (req, res) => {
+  db.all('SELECT id, username, role FROM users', [], (err, rows) => {
+    if (err) return res.status(400).json({ error: err.message });
+    res.json(rows);
   });
 });
 
